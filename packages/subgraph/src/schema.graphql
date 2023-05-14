@@ -1,0 +1,36 @@
+# type Purpose @entity {
+#   id: ID!
+#   sender: Sender!
+#   purpose: String!
+#   createdAt: BigInt!
+#   transactionHash: String!
+# }
+
+# type Sender @entity {
+#   id: ID!
+#   address: Bytes!
+#   purposes: [Purpose!] @derivedFrom(field: "sender")
+#   createdAt: BigInt!
+#   purposeCount: BigInt!
+# }
+
+type Account @entity {
+  id: ID!
+  memberships: [Membership!] @derivedFrom(field: "address")
+}
+
+type Treaty @entity {
+  id: ID!
+  title: String!
+  agreements: [String!]
+  members: [Membership!] @derivedFrom(field: "treaty")
+  joined: [Treaty!]
+}
+
+# id = (treaty + " " + address)
+type Membership @entity {
+  id: ID!
+  address: Account!
+  treaty: Treaty!
+  # treaties: [Treaty!] @derivedFrom(field: "")
+}

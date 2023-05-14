@@ -1,0 +1,31 @@
+specVersion: 0.0.2
+schema:
+  file: ./src/schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: Emitter
+    network: localhost
+    source:
+      abi: Emitter
+      address: "0x5FbDB2315678afecb367f032d93F642f64180aa3"
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - Account
+        - Treaty
+        - Membership
+      abis:
+        - name: Emitter
+          file: ./abis/localhost_Emitter.json
+      eventHandlers:
+        - event: NewTreaty(address,string)
+          handler: handleNewTreaty
+        - event: NewAgreement(address,string)
+          handler: handleNewAgreement
+        - event: UserAdded(address,address)
+          handler: handleUserAdded
+        - event: Joined(address,address)
+          handler: handleJoined
+      file: ./src/mapping.ts
